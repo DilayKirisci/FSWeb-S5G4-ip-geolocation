@@ -1,34 +1,34 @@
 //axios import buraya gelecek
+import axios from "axios";
 
 var benimIP;
-
 
 // ------------ değiştirmeyin --------------
 // licensed to Ergineer 2022
 require("babel-core/register");
 require("babel-polyfill");
-async function ipAdresimiAl(){
+async function ipAdresimiAl() {
 	await axios({
-		method: 'get',
-		url: 'https://apis.ergineer.com/ipadresim',
+		method: "get",
+		url: "https://apis.ergineer.com/ipgeoapi/85.107.123.27",
 	})
-	.then(function (response) {
-		return response.data
-	})
-	.then(function (a) {
-		benimIP=a
-	});
-}				
+		.then(function (response) {
+			return response.data;
+		})
+		.then(function (a) {
+			benimIP = a;
+		});
+}
 // ------------ değiştirmeyin --------------
-
 
 /*
 	ADIM 1: axios kullanarak, aşağıdaki URL'ye GET sorgusu atacağız
     (tag içindeki yere kendi ipnizi yazarak URL'yi oluşturun):
-    https://apis.ergineer.com/ipgeoapi/<ipniz>
+    https://apis.ergineer.com/ipgeoapi/85.107.123.27
 	
 	NOT: Bilgisayarın IP adresini öğrenmek için: https://apis.ergineer.com/ipadresim 
 	ADIM 5'e gelene kadar fonksiyonunuzu test etmek için ip nizi URL'ye manuel olarak ekleyebilirsiniz.
+
 */
 
 /*
@@ -67,6 +67,50 @@ async function ipAdresimiAl(){
 	Örnek dinamik URL kullanımı: var url = "https://apis.ergineer.com/ipgeoapi/"+benimIP; 
 */
 
-
-
 //kodlar buraya gelecek
+
+function myIp(data) {
+	const body = document.querySelector("body");
+	const card = document.createElement("div");
+	card.classList.add("card");
+	const img = document.createElement("img");
+	img.src = "data.ülkebayrağı";
+	const cardInfo = document.createElement("div");
+	cardInfo.classList.add("card-info");
+	const cardH3 = document.createElement("h3");
+	cardH3.classList.add("ip");
+	cardH3.textContent = data.sorgu;
+	const pUlke = document.createElement("p");
+	pUlke.classList.add("ulke");
+	pUlke.textContent = `{ülke bilgisi (${data.ülke})}`;
+	const p1 = document.createElement("p");
+	const p2 = document.createElement("p");
+	const p3 = document.createElement("p");
+	const p4 = document.createElement("p");
+	const p5 = document.createElement("p");
+	p1.textContent = `Enlem: {${data.enlem}} Boylam: {${data.boylam}}`;
+	p2.textContent = `Şehir: {${data.bölgeAdı}}`;
+	p3.textContent = "Saat dilimi: " + data.saatdilimi;
+	p4.textContent = `Para birimi: {${data.parabirimi}}`;
+	p5.textContent = `ISP: {${data.isp}}`;
+	cardInfo.appendChild(cardH3);
+	cardInfo.appendChild(pUlke);
+	cardInfo.appendChild(p1);
+	cardInfo.appendChild(p2);
+	cardInfo.appendChild(p3);
+	cardInfo.appendChild(p4);
+	cardInfo.appendChild(p5);
+	card.appendChild(img);
+	card.appendChild(cardInfo);
+	body.appendChild(card);
+}
+
+axios
+	.get("https://apis.ergineer.com/ipgeoapi/85.107.123.27")
+	.then((response) => {
+		console.log(response);
+		myIp(response.data);
+	})
+	.catch((error) => {
+		console.error(error);
+	});
